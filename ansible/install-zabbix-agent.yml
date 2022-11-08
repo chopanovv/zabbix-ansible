@@ -1,0 +1,19 @@
+
+- hosts: cluster-nodes
+  vars_files:
+    - "api-creds.yml"
+  roles:
+    - role: community.zabbix.zabbix_agent
+      zabbix_agent_server: za.mydomain.ru
+      zabbix_agent_serveractive: za.mydomain.ru
+      zabbix_api_server_url: https://za.mydomain.ru
+      zabbix_api_use: true
+      zabbix_api_login_user: "{{ api_login_user }}"
+      zabbix_api_login_pass: "{{ api_login_pass }}"
+      zabbix_api_create_hosts: true
+      zabbix_agent_host_state: present
+      zabbix_agent_become_on_localhost: false
+      zabbix_host_groups:
+        - test-hosts
+      zabbix_agent_link_templates:
+        - Template OS Linux

@@ -1,0 +1,4 @@
+---
+HOST_IP: localhost
+DEST_PATH: tmp
+docker_stopped: true

@@ -1,0 +1,56 @@
+cluster_name: test-cluster
+
+ignore_docker_version: true
+kubernetes_version: "v1.23.10-rancher1-1"
+
+# system_images:
+#   etcd: rancher/mirrored-coreos-etcd:v3.5.4
+
+# ssh_key_path: ~/.ssh/id_rsa
+
+nodes:
+# controlplane
+  - address:
+    hostname_override: node1
+    user: root
+    role: [etcd,controlplane,worker]
+    labels:
+      location: ru-1
+
+  - address:
+    hostname_override: node2
+    user: root
+    role: [etcd,controlplane,worker]
+    labels:
+      location: ru-1
+
+  - address: 
+    hostname_override: node3
+    user: root
+    role: [etcd,controlplane,worker]
+    labels:
+      location: ru-1
+
+ingress:
+  provider: nginx
+  node_selector:
+    orc_ingress: yes
+  tolerations:
+  - key: node-role.kubernetes.io/controlplane
+    operator: Exists
+    effect: NoSchedule
+  - key: node-role.kubernetes.io/etcd
+    operator: Exists
+    effect: NoExecute
+  extra_args:
+    http-port: 80
+    https-port: 443
+
+services:
+  etcd:
+    snapshot: true
+    creation: 6h
+    retention: 30h
+  kube-controller:
+    extra_args:
+      terminated-pod-gc-threshold: 100

@@ -1,0 +1,27 @@
+---
+- name: Init upgrade
+  hosts: "{{ hostlist|default(localhost) }}"
+  serial: "{{ forks|default(1) }}"
+  strategy: "{{ strat|default(linear) }}"
+  roles:
+#    - role: k8s_cordon_nodes
+#      hosts: localhost
+#      delegate_to: localhost
+#      vars:
+#        node_hostname: "{{ inventory_hostname }}"
+        # debug: true
+#      tags: cordon
+      # TODO when: cordoned|default(true)
+
+    - role: k8s_update_nodes
+      become: true
+      vars:
+        docker_stopped: true
+
+#    - role: k8s_cordon_nodes
+#      hosts: localhost
+#      delegate_to: localhost
+#      vars:
+#        node_hostname: "{{ inventory_hostname }}"
+#      tags: uncordon
+      # TODO when: cordoned|default(true)
