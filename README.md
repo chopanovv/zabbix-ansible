@@ -34,7 +34,7 @@ ansible-galaxy collection install community.zabbix
 1. zabbix_agent_host_state: present (Default) if the host needs to be created or absent is you want to delete it.
 
 ## Видео к курсу
-- [видео]()
+- [видео](https://bit.ly/3TotaY9)
 
 ##### Автор
 - **Vassiliy Yegorov**
